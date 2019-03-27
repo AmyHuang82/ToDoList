@@ -3,7 +3,10 @@ import React from 'react';
 class ToDoItem extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { className: "" };
+        this.state = {
+            className: "",
+            status: "undone"
+        };
     }
     render() {
         return (
@@ -16,8 +19,10 @@ class ToDoItem extends React.Component {
     clickHandler(e) {
         if (this.state.className === "") {
             this.setState({ className: "checked" });
+            this.setState({ status: "done" });
         } else {
             this.setState({ className: "" });
+            this.setState({ status: "undone" });
         }
     }
 }

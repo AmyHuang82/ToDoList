@@ -19,6 +19,25 @@ li {
     align-items: center;
 }
 
+.status-btn {
+    padding: 5px 10px;
+    margin-right: 1px;
+    background-color: white;
+    border:2px solid rgb(141, 203, 255);
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    color: rgb(72, 168, 247);
+    font-weight: bolder;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+}
+
+.status-btn:focus {
+    color: white;
+    background-color: rgb(141, 203, 255);
+}
+
 .container {
     width: 60%;
     max-width: 600px;
