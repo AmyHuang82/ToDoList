@@ -130,3 +130,15 @@ li {
     text-decoration: line-through;
     color: gray;
 }
+
+@media screen and (max-width: 600px) {
+    .container {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .container {
+        width: 95%;
+    }
+}
