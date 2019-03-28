@@ -4,26 +4,30 @@ class ToDoItem extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            className: "",
-            status: "undone"
+            className: "checked",
+            status: true,
+            label: this.props.label
         };
+        this.clickHandler = this.clickHandler.bind(this);
+    }
+    clickHandler(e) {
+        if (this.state.status === false) {
+            this.setState({ className: "checked" });
+            this.setState({ status: true });
+            this.props.changeStatus(this.state);
+        } else {
+            this.setState({ className: "" });
+            this.setState({ status: false });
+            this.props.changeStatus(this.state);
+        }
     }
     render() {
         return (
-            <li className={this.state.className}>
-                <span onClick={this.clickHandler.bind(this)} className="item">{this.props.text}</span>
+            <li className={this.props.className}>
+                <span onClick={this.clickHandler} className="item">{this.props.text}</span>
                 <span onClick={this.props.deleteItem} className="delete">X</span>
             </li>
         );
-    }
-    clickHandler(e) {
-        if (this.state.className === "") {
-            this.setState({ className: "checked" });
-            this.setState({ status: "done" });
-        } else {
-            this.setState({ className: "" });
-            this.setState({ status: "undone" });
-        }
     }
 }
 
