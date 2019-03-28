@@ -9,6 +9,7 @@ class ToDoItem extends React.Component {
             label: this.props.label
         };
         this.clickHandler = this.clickHandler.bind(this);
+        this.deleteHandler = this.deleteHandler.bind(this);
     }
     clickHandler(e) {
         if (this.state.status === false) {
@@ -21,11 +22,14 @@ class ToDoItem extends React.Component {
             this.props.changeStatus(this.state);
         }
     }
+    deleteHandler(e) {
+        this.props.deleteItem(this.state);
+    }
     render() {
         return (
             <li className={this.props.className}>
                 <span onClick={this.clickHandler} className="item">{this.props.text}</span>
-                <span onClick={this.props.deleteItem} className="delete">X</span>
+                <span onClick={this.deleteHandler} className="delete">X</span>
             </li>
         );
     }

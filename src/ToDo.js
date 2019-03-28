@@ -1,5 +1,6 @@
 import React from 'react';
 import { uid } from 'react-uid';
+// import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import ToDoItem from './ToDoItem';
 
 var i = 1;
@@ -11,7 +12,21 @@ class ToDo extends React.Component {
         this.state = {
             text: "",
             items: [],
-            tab: "all"
+            tab: "all",
+            tabs: [
+                {
+                    tabText: "All",
+                    className: "status-btn active"
+                },
+                {
+                    tabText: "Active",
+                    className: "status-btn"
+                },
+                {
+                    tabText: "Completed",
+                    className: "status-btn"
+                }
+            ]
         };
 
         this.textChangeHandler = this.textChangeHandler.bind(this);
@@ -40,21 +55,39 @@ class ToDo extends React.Component {
             i++;
         }
     }
-    deleteItem(index, e) {
+    deleteItem(todo_state, e) {
         // Object.assign或slice都可以複製一個陣列
-        let newData = this.state.items.slice();
         // let newData = Object.assign([], this.state.items);
+        let newData = this.state.items.slice();
+        let index;
+
+        for (let i = 0; i < newData.length; i++) {
+            if (newData[i].label === todo_state.label) {
+                index = i;
+            }
+        }
         newData.splice(index, 1);
         this.setState({ items: newData });
     }
     switchCategory(e) {
+        let buttons = this.state.tabs.slice();
+
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].className = "status-btn";
+        }
+
         if (e.target.textContent === "All") {
             this.setState({ tab: "all" });
+            buttons[0].className = "status-btn active";
         } else if (e.target.textContent === "Active") {
             this.setState({ tab: "active" });
+            buttons[1].className = "status-btn active";
         } else {
             this.setState({ tab: "completed" });
+            buttons[2].className = "status-btn active";
         }
+
+        this.setState({ tabs: buttons });
     }
     changeStatus(todo_state) {
         let newData = this.state.items.slice();
@@ -75,12 +108,14 @@ class ToDo extends React.Component {
         } else if (tab === 'completed') {
             data = data.filter(item => item.status === true);
         }
-        // return React.createElement("H1", null, "Hello World");
+
         return (
             <div className="container">
-                <button className="status-btn" onClick={this.switchCategory}>All</button>
-                <button className="status-btn" onClick={this.switchCategory}>Active</button>
-                <button className="status-btn" onClick={this.switchCategory}>Completed</button>
+                {
+                    this.state.tabs.map((tab) => {
+                        return <button className={tab.className} onClick={this.switchCategory} key={tab.tabText}>{tab.tabText}</button>
+                    })
+                }
                 <div className="top">
                     <h1>TO DO LIST</h1>
                     <div className="add_to_do">
@@ -91,9 +126,8 @@ class ToDo extends React.Component {
                 <ul className="to_do" >
                     {
                         data.map((item, index) => {
-                            {/* 注意{this.deleteItem.bind(this, index)}this被bind，而index是傳入值，所以下面function的順序是(index, e) */ }
                             return <ToDoItem
-                                deleteItem={this.deleteItem.bind(this, index)}
+                                deleteItem={this.deleteItem.bind(this)}
                                 text={item.text}
                                 key={uid(item)}
                                 label={uid(item)}

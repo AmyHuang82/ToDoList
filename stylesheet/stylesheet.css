@@ -33,7 +33,7 @@ li {
     cursor: pointer;
 }
 
-.status-btn:focus {
+.active {
     color: white;
     background-color: rgb(141, 203, 255);
 }
