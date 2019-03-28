@@ -89,14 +89,21 @@ class ToDo extends React.Component {
 
         this.setState({ tabs: buttons });
     }
-    changeStatus(todo_state) {
+    changeStatus(todo_state, e) {
         let newData = this.state.items.slice();
+
         for (let i = 0; i < newData.length; i++) {
             if (newData[i].label === todo_state.label) {
-                newData[i].status = todo_state.status;
-                newData[i].className = todo_state.className;
+                if (todo_state.status === false) {
+                    newData[i].status = true;
+                    newData[i].className = "checked";
+                } else {
+                    newData[i].status = false;
+                    newData[i].className = "";
+                }
             }
         }
+
         this.setState({ items: newData });
     }
     render() {
@@ -125,13 +132,13 @@ class ToDo extends React.Component {
                 </div>
                 <ul className="to_do" >
                     {
-                        data.map((item, index) => {
+                        data.map((item) => {
                             return <ToDoItem
-                                deleteItem={this.deleteItem.bind(this)}
                                 text={item.text}
                                 key={uid(item)}
                                 label={uid(item)}
                                 changeStatus={this.changeStatus}
+                                deleteItem={this.deleteItem}
                                 status={item.status}
                                 className={item.className}
                             ></ToDoItem>
